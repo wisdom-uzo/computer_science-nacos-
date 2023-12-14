@@ -1,27 +1,36 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { authenticate } from '../lib/actions';
+import { useFormState } from 'react-dom'
+
 
 const LoginPage = () => {
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
  const [error, setError] = useState('');
 
+ const [state, formAction] = useFormState(authenticate, undefined);
+
  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError('Please fill in all fields'); 
       return;
     }
-
-    // Your login logic here
+  const formData = {email, password}
+  
+  authenticate(formData)
  };
 
  return (
     <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
+          <Image height={100} width={400} alt='Nacos' src="/nacos.jpg"/>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
@@ -33,7 +42,7 @@ const LoginPage = () => {
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
-              <input
+              <input 
                 id="email-address"
                 name="email"
                 type="email"
@@ -76,8 +85,10 @@ const LoginPage = () => {
             >
               Sign in
             </button>
+            {state && state}
           </div>
         </form>
+        <p className="text-gray-600 mt-3 text-center">Don't have an account  <Link href='/register' className='text-blue-500'>Click to Register</Link> </p>
       </div>
     </div>
  );

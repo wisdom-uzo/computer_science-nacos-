@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from '../auth.config';
 
-//import { User } from "./lib/models";
 import bcrypt from 'bcryptjs';
 import { User } from './lib/models';
 import { connectToDB } from './lib/utils';
@@ -10,16 +9,17 @@ import { connectToDB } from './lib/utils';
 const login = async (credentials) => {
     try {
       connectToDB();
-      const user = await User.findOne({ username: credentials.username });
-  
-      if (!user || !user.isAdmin) throw new Error("Wrong credentials!");
+      const user = await User.findOne({ email: credentials.email });
+       
+       
+      //if (!user || !user.isAdmin) throw new Error("email does not exist!");
   
       const isPasswordCorrect = await bcrypt.compare(
         credentials.password,
         user.password
       );
   
-      if (!isPasswordCorrect) throw new Error("Wrong credentials!");
+      if (!isPasswordCorrect) throw new Error("incorrect password!");
   
       return user;
     } catch (err) {
@@ -47,16 +47,30 @@ const login = async (credentials) => {
       async jwt({ token, user }) {
         if (user) {
           token.username = user.username;
-          token.img = user.img;
+          token.email = user.email;
+          token.fullName = user.fullName;
+          token.matricNo = user.matricNo;
+          token.level = user.level;
+          token.phone = user.phone;
+          token.address = user.address;
+
         }
         return token;
       },
       async session({ session, token }) {
         if (token) {
-          session.user.username = token.username;
-          session.user.img = token.img;
+          session.user = {
+            username: token.username,
+            email: token.email,
+            fullName: token.fullName,
+            matricNo: token.matricNo,
+            level: token.level,
+            phone: token.phone,
+            address: token.address,
+            // Set other necessary user details from token to session
+          };
         }
         return session;
       },
     },
-  });
+  }); 

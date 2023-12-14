@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { User } from "./models";
+import { Payment, User } from "./models";
 import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -71,7 +71,39 @@ const { username, email,fullName, password,matricNo, level, phone, address, isAd
 //   revalidatePath("/dashboard/users");
 //   redirect("/dashboard/users");
 // };
-
+export const addPayment = async (formData) => {
+ 
+  const { 
+    reference,
+    amount,
+    currency,
+    status,
+    email,
+    fullName, 
+    matricNo, 
+    level,  } = formData ;
+  
+    try {
+      connectToDB();
+  
+  
+      const newPayment = new Payment({
+        reference,
+        amount,
+        currency,
+        status,
+        email,
+        fullName, 
+        matricNo, 
+        level, 
+      });
+  
+      await newPayment.save();
+    } catch (err) {
+      console.log(err);
+      throw new Error("Failed to  make payment!");
+    }
+  };
 
 
 export const deleteUser = async (formData) => {
@@ -88,14 +120,29 @@ export const deleteUser = async (formData) => {
   revalidatePath("/dashboard/products");
 };
 
+export const getAllUserPayment = async (email) => {
+  
+  try {
+    connectToDB()
+    const studentPayment = await Payment.find({email : email})
+    
+    return  studentPayment
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch user payments!");
+  }
+}
 
 
-export const authenticate = async (prevState, formData) => {
-  const { username, password } = Object.fromEntries(formData);
+
+export const authenticate = async ( formData) => {
+   // const { email, password } = Object.fromEntries(formData);
+  const { email, password } = formData;
 
   try {
-    await signIn("credentials", { username, password });
+    await signIn("credentials", { email, password });
+    
   } catch (err) {
-    return "Wrong Credentials!";
+    return "Wrong Credentials!";      
   }
 };

@@ -57,7 +57,7 @@ export const fetchProduct = async (id) => {
     return product;
   } catch (err) {
     console.log(err);
-    throw new Error("Failed to fetch product!");
+    throw new Error("Failed to fetch product!"); 
   }
 };
 
@@ -83,3 +83,5 @@ export const cards = [
     change: 18,
   },
 ];
+
+

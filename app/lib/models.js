@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
     matricNo: {
       type: String,
       required: true,
+      unique: true,
     },
     level: {
       type: String,
@@ -53,4 +54,19 @@ const userSchema = new mongoose.Schema(
 
 
 
+const paymentSchema = new mongoose.Schema({
+  reference: { type: String, required: true }, // Payment reference from Paystack
+  amount: { type: String, required: true },
+  currency: { type: String, required: true },
+  status: { type: String, required: true },
+  email: {type: String, required: true},
+  matricNo: {type: String, required: true},
+  fullName: {type: String,required: true },
+  level: {type: String,required: true},
+},
+{ timestamps: true }
+);
+
+
+export const Payment = mongoose.models.Payment || mongoose.model('Payment', paymentSchema);
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
