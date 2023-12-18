@@ -4,6 +4,7 @@ import Payment from '../components/Payment';
 import { getAllUserPayment } from '../lib/actions';
 import { Card } from '@mui/material';
 import PaymentHistory from '../components/PaymentHistory';
+import { MdLogout } from 'react-icons/md';
 
   
 
@@ -45,6 +46,18 @@ const payments = await getAllUserPayment(user.email)
         <h2 className="font-bold mt-5 text-[1.5rem] text-gray-700">Payment history</h2>
 
       <PaymentHistory data={payments} />
+
+      <form
+        action={async () => {
+          "use server";
+         await signOut();
+        }}
+      >
+        <button className="flex items-center gap-2 cursor-pointer p-5">
+          <MdLogout />
+          Logout
+        </button>
+      </form>
 
       </Card> 
 
