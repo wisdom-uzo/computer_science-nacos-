@@ -80,7 +80,8 @@ export const addPayment = async (formData) => {
     status,
     email,
     fullName, 
-    matricNo, 
+    matricNo,
+    paymentType, 
     level,  } = formData ;
   
     try {
@@ -94,7 +95,8 @@ export const addPayment = async (formData) => {
         status,
         email,
         fullName, 
-        matricNo, 
+        matricNo,
+        paymentType, 
         level, 
       });
   

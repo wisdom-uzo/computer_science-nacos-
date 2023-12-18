@@ -63,6 +63,7 @@ const paymentSchema = new mongoose.Schema({
   matricNo: {type: String, required: true},
   fullName: {type: String,required: true },
   level: {type: String,required: true},
+  paymentType : {type: String,required: true},
 },
 { timestamps: true }
 );

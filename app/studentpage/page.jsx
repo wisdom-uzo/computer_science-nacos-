@@ -1,96 +1,61 @@
-'use client'
-// import React from 'react'
-// import { auth, signOut } from '../auth';
-// import Payment from '../components/Payment';
-// import { useSession } from 'next-auth/react'
-// import { getAllUserPayment } from '../lib/actions';
+import React from 'react'
+import { auth, signOut } from '../auth';
+import Payment from '../components/Payment';
+import { getAllUserPayment } from '../lib/actions';
+import { Card } from '@mui/material';
+import PaymentHistory from '../components/PaymentHistory';
 
   
 
  
 
-// const page = async () => {
+const page = async () => {
 
-// const {user} = await auth()
-// const payments = await getAllUserPayment(user.email)
-// console.log(payments)
+const {user} = await auth()
+const payments = await getAllUserPayment(user.email)
+
 
     
-//   return (
-//     <div>student page
-//       <Payment data={user} />
-//       <form
-//         action={async () => {
-//           "use server";
-//           await signOut();
-//         }}
-//       >
-//         <button>
-          
-//           Logout
-//         </button>
-//       </form>
-//     </div>
-//   )
-// }
-
-// export default page
-
-
-import { useState } from 'react';
-
-// Example student data
-const student = {
-  username: 'cool_student123',
-  email: 'cool@student.com',
-  hashedPassword: '********', // Hashed password for security reasons
-  fullName: 'Cool Student',
-  matricNo: 'ABC123',
-  level: '200',
-  phone: '123-456-7890',
-};
-
-const StudentPage = () => {
-  const [paymentAmount, setPaymentAmount] = useState(0);
-
-  const handlePayment = () => {
-    // Handle payment logic here (e.g., API call, payment processing)
-    console.log(`Payment of $${paymentAmount} successful!`);
-    // You can add your payment handling functionality here
-  };
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Student Information</h1>
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="mb-4">
-          <p><span className="font-bold">Username:</span> {student.username}</p>
-          <p><span className="font-bold">Email:</span> {student.email}</p>
-          <p><span className="font-bold">Password:</span> {student.hashedPassword}</p>
-          <p><span className="font-bold">Full Name:</span> {student.fullName}</p>
-          <p><span className="font-bold">Matric No:</span> {student.matricNo}</p>
-          <p><span className="font-bold">Level:</span> {student.level}</p>
-          <p><span className="font-bold">Phone:</span> {student.phone}</p>
-        </div>
-        <div>
-          <h2 className="text-xl font-bold mb-2">Make Payment</h2>
-          <input
-            type="number"
-            className="border border-gray-300 p-2 mb-2"
-            placeholder="Enter payment amount"
-            value={paymentAmount}
-            onChange={(e) => setPaymentAmount(e.target.value)}
-          />
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            onClick={handlePayment}
-          >
-            Pay
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <div className='w-full md:w-[80%] mx-auto'>
+      <Card variant={5} className='my-5 h-[20rem] flex flex-col justify-center p-3'>
+        <div className="">
+          <h2 className="font-bold text-[1.5rem] text-gray-700">Wellcome ✨🎉<br /> 
+          <span>{user.fullName}</span> <br /> to your own personal NACOS portal👨‍💻👩‍💻</h2>
 
-export default StudentPage;
+          <p className='mt-[3rem]'>Trust you had a wonderfull day</p>
+        </div>
+      </Card>
+
+
+      <Card variant={5} className='p-5'>
+         <h2 className="font-bold text-[1.5rem] text-gray-700">Payment</h2>
+
+
+         <Payment data={user} 
+                  domePrice={'2500.00'}
+                  paymentType={'Departmental Fee/Nacos'} 
+                  amount={250000} />
+
+         <Payment data={user} 
+                  domePrice={'3500.00'} 
+                  paymentType={'Departmental week'} 
+                  amount={350000} />
+
+        <h2 className="font-bold mt-5 text-[1.5rem] text-gray-700">Payment history</h2>
+
+      <PaymentHistory data={payments} />
+
+      </Card> 
+
+      
+
+      
+    </div>
+  )
+}
+
+export default page
+
+{/* <Payment data={user} /> */}
+      

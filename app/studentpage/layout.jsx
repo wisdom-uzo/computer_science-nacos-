@@ -14,9 +14,9 @@ export default function RootLayout({ children }) {
       <body>
         <MyContextProvider>
         <div className="flex">
-        <div className="flex-[1]">
+        {/* <div className="flex-[1]">
           <Sidebar />
-        </div>
+        </div> */}
 
         <div className="flex-[4] bg-gray-100 px-5">
           <Navbar/>
